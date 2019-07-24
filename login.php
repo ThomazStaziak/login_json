@@ -5,15 +5,20 @@
   if ($_REQUEST) {
     $email = $_REQUEST["email"];
     $senha = $_REQUEST["senha"];
-    $estaLogado = logarUsuario($email, $senha);
+    $usuario = logarUsuario($email, $senha);
+
+    if ($usuario) {
+      session_start();
+      $_SESSION["logado"] = $usuario;
+
+      header("Location: index.php");
+    }
   }
 ?>
 
   <div class="login">
     <h1>Login</h1>
-    <?php if (isset($estaLogado) && $estaLogado): ?>
-      <?php header("Location: index.php"); ?>
-    <?php elseif (isset($estaLogado) && !$estaLogado) : ?>
+    <?php if (isset($estaLogado) && !$estaLogado) : ?>
       <div class="alert alert-danger" role="alert">
         <span>Email e senha incompatíveis!</span>
       </div>
