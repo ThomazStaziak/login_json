@@ -28,26 +28,30 @@
       <div class="alert alert-danger" role="alert">
         <?= $erro; ?>
       </div>
-    <?php elseif (isset($cadastrou)) : ?>
+    <?php elseif (isset($cadastrou) && !$cadastrou) : ?>
+      <div class="alert alert-danger" role="alert">
+        <span>Esse email está sendo utilizado</span>
+      </div>
+    <?php elseif (isset($cadastrou) && $cadastrou) : ?>
       <div class="alert alert-success" role="alert">
         <span>Usuário cadastrado com sucesso</span>
       </div>
     <?php endif; ?>
     <form action="cadastro.php" method="post" class="col-7">
       <div class="form-group">
-        <label for="exampleInputNome">Nome</label>
-        <input type="text" name="nome" class="form-control" id="exampleInputNome" placeholder="Insira seu nome">
+        <label for="inputNome">Nome</label>
+        <input type="text" name="nome" class="form-control" id="inputNome" placeholder="Insira seu nome" value="<?php if (isset($_REQUEST["nome"])) echo $_REQUEST["nome"] ?>">
       </div>
       <div class="form-group">
-        <label for="exampleInputEmail1">Email</label>
-        <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Insira seu email">
+        <label for="inputEmail1">Email</label>
+        <input type="email" name="email" class="form-control" id="inputEmail1" placeholder="Insira seu email" value="<?php if (isset($_REQUEST["email"])) echo $_REQUEST["email"] ?>">
       </div>
       <div class="form-group">
-        <label for="exampleInputSenha">Senha</label>
-        <input type="password" name="senha" class="form-control" id="exampleInputSenha" placeholder="Insira sua senha">
+        <label for="inputSenha">Senha</label>
+        <input type="password" name="senha" class="form-control" id="inputSenha" placeholder="Insira sua senha">
       </div>
       <div class="form-group">
-        <label for="exampleInputConfirmar">Confirme sua senha</label>
+        <label for="inputConfirmar">Confirme sua senha</label>
         <input type="password" name="confirmarSenha" class="form-control" id="exampleInputConfirmar" placeholder="Confirme sua senha">
       </div>
       <button type="submit" class="btn btn-primary">Cadastrar</button>
