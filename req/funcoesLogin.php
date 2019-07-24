@@ -1,37 +1,48 @@
 <?php
-  $nomeArquivo = "usuarios.json";
+  define("ARQUIVO", "usuarios.json");
+
+  function todosOsUsuarios() {
+    $jsonUsuarios = file_get_contents(ARQUIVO);
+
+    return json_decode($jsonUsuarios, true);
+  }
 
   function cadastrarUsuario($usuario) {
-    global $nomeArquivo;
+    $arrayUsuarios = todosOsUsuarios();
 
-    $jsonUsuarios = file_get_contents($nomeArquivo);
+    $emailExiste = array_search($usuario["email"], array_column($arrayUsuarios, "email"));
 
-    $arrayUsuarios = json_decode($jsonUsuarios, true);
+    if ($emailExiste !== false)
+      return false;
 
-    array_push($arrayUsuarios["usuarios"], $usuario);
+    array_push($arrayUsuarios, $usuario);
 
     $jsonUsuarios = json_encode($arrayUsuarios);
 
-    $cadastrou = file_put_contents($nomeArquivo, $jsonUsuarios);
+    $cadastrou = file_put_contents(ARQUIVO, $jsonUsuarios);
 
     return $cadastrou;
   }
 
   function logarUsuario($email, $senha) {
-    global $nomeArquivo;
     $logado = false;
 
-    $jsonUsuarios = file_get_contents($nomeArquivo);
+    $arrayUsuarios = todosOsUsuarios();
 
-    $arrayUsuarios = json_decode($jsonUsuarios, true);
-
-    foreach ($arrayUsuarios["usuarios"] as $key => $value) {
+    foreach ($arrayUsuarios as $key => $value) {
       if ($email == $value["email"] && $senha == $value["senha"]) {
-          $logado = true;
+          $logado = $value;
           break;
       }
     }
 
     return $logado;
+  }
+
+  function logout() {
+    if (!session_start())
+      session_start();
+
+    session_destroy();
   }
 ?>
