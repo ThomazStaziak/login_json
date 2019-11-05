@@ -1,21 +1,21 @@
 <?php
   require "req/funcoesLogin.php";
-
+  
   if (isset($_GET["logout"]) && $_GET["logout"]) {
     logout();
-
+    
     header("Location: login.php");
   }
-
+  
   session_start();
-  if (!isset($_SESSION["logado"]) && !$_SESSION["logado"]) 
+  if (!$_SESSION && !$_SESSION["usuario"]) 
   header("Location: login.php");
   
   include "inc/head.php";
  ?>
   <div class="container">
     <div class="jumbotron">
-      <h1 class="display-4">Olá <?php echo ucwords(strtolower($_SESSION["logado"]["nome"])) ?></h1>
+      <h1 class="display-4">Olá <?php echo ucwords(strtolower($_SESSION["usuario"]["nome"])) ?></h1>
       <h4>Usuários cadastrados</h4>
       <?php foreach(todosOsUsuarios() as $key => $value) : ?>
         <div class="border border-secondary p-3 m-1">

@@ -4,6 +4,11 @@
   function todosOsUsuarios() {
     $jsonUsuarios = file_get_contents(ARQUIVO);
 
+    if (!$jsonUsuarios) {
+      file_put_contents(ARQUIVO, '[]');
+      $jsonUsuarios = file_get_contents(ARQUIVO);
+    }
+
     return json_decode($jsonUsuarios, true);
   }
 
